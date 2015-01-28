@@ -67,8 +67,14 @@ function(hljs) {
 
       // inline code snippets
       {
-        className: 'code',
-        begin: '`.+?`'
+        className: 'code-span',
+        begin: '`.+?`',
+        returnBegin: true,
+        contains: [ {
+          className: 'code',
+          begin: '`', end: '`',
+          excludeBegin: true, excludeEnd: true
+        } ]
       },
 
       // links - title and link
