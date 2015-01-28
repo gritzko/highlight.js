@@ -12,19 +12,31 @@ function(hljs) {
     contains: [
       // headers
       {
-        className: 'header-n',
+        className: 'header',
         begin: /^#{3,6}\s*/, end: /$/,
-        contains: [ { className: 'header', endsWithParent: true } ]
+        returnBegin: true,
+        contains: [
+		  { className: 'header-markup', begin: /^#{3,6}\s*/ },
+		  { className: 'header-n', endsWithParent: true },
+		]
       },
       {
-        className: 'header-2',
+        className: 'header',
         begin: /^##\s*/, end: /$/,
-        contains: [ { className: 'header', endsWithParent: true } ]
+        returnBegin: true,
+        contains: [
+		  { className: 'header-markup', begin: /^##\s*/ },
+		  { className: 'header-2', endsWithParent: true },
+		]
       },
       {
-        className: 'header-1',
+        className: 'header',
         begin: /^#\s*/, end: /$/,
-        contains: [ { className: 'header', endsWithParent: true } ]
+        returnBegin: true,
+        contains: [
+		  { className: 'header-markup', begin: /^#\s*/ },
+		  { className: 'header-1', endsWithParent: true },
+		]
       },
       {
         className: 'header',
