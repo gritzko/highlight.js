@@ -278,40 +278,39 @@ https://highlightjs.org/
     if (!language) throw new Error('Unknown language: "' + name + '"');
     compileLanguage(language);
 
-    function nodeAppend(node, str, mode) {
+    function nodeAppend(node, value, mode) {
       var n;
-      if (!str && !mode) {
+      if (!value && !mode) {
         // we don't need to do anythign for a blank new node
         return node;
       }
-      str = (str || '').toString();
       if (typeof node.value == 'object') {
         if (mode) {
           // new node starts a new mode
-          n = { value: str, parent: node, mode: mode };
+          n = { value: value, parent: node, mode: mode };
           node.value.push(n);
         } else {
           // new node is a plain string
           n = node.value[node.value.length - 1];
           if (n.mode || (typeof n.value == 'object')) {
             // last child of old node is not simple: add new node as a sibling to it
-            n = { value: str, parent: node };
+            n = { value: value, parent: node };
             node.value.push(n);
           } else {
             // last child of old node is simple: concatenate strings
-            n.value += str;
+            n.value += value;
           }
         }
       } else {
-        // node has string value
+        // old node has string value
         if (mode) {
           if (!node.value && !node.mode) {
             // old node is blank: overwrite it
             n = node;
-            node.value = str;
+            node.value = value;
             node.mode = mode;
           } else if (node.mode || !node.parent) {
-            n = { value: str, parent: node, mode: mode };
+            n = { value: value, parent: node, mode: mode };
             if (node.value) {
               // old node has a mode & is not blank: include its contents
               node.value = [ { value: node.value, parent: node }, n ];
@@ -321,13 +320,13 @@ https://highlightjs.org/
             }
           } else {
             // old node is non-blank but modeless: add new node as a sibling to it
-            n = { value: str, parent: node.parent, mode: mode };
+            n = { value: value, parent: node.parent, mode: mode };
             node.parent.value.push(n);
           }
         } else {
           // adding string to string: concatenate
           n = node;
-          if (str) node.value += str;
+          if (value) node.value += value;
         }
       }
       return n;
@@ -393,7 +392,7 @@ https://highlightjs.org/
       // allows XML everywhere and makes every XML snippet to have a much larger Markdown
       // score.
       if (result.mode.relevance > 0) result.relevance += sub_result.relevance;
-      result.data = nodeAppend(result.data, sub_result.value, sub_result.language);
+      result.data = nodeAppend(result.data, sub_result.data.value, sub_result.language);
       result.data.subLanguage = true;
       result.data = nodeParent(result.data);
     }
@@ -523,18 +522,18 @@ https://highlightjs.org/
           if (typeof node.value == 'object') {
             return node.value.map(nodeSpan).join('');
           } else {
-            return node.subLanguage ? node.value : escape(node.value);
+            return escape(node.value);
           }
         },
         nodePrint = function(node, indent) {
           if (!indent) indent = '';
           var label = node.mode ? JSON.stringify(node.mode) : '_';
-          if (typeof node.value == 'string') {
-            console.log(indent + label + ': ' + JSON.stringify(node.value));
-          } else {
+          if (typeof node.value == 'object') {
             console.log(indent + label + ': [');
             if (node.value) for (var i = 0; i < node.value.length; ++i) nodePrint(node.value[i], indent + '    ');
             console.log(indent + ']');
+          } else {
+            console.log(indent + label + ': ' + JSON.stringify(node.value));
           }
         };
 
