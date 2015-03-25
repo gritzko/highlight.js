@@ -12,35 +12,66 @@ function(hljs) {
     contains: [
       // headers
       {
-        className: 'header',
-        begin: /^#{3,6}\s+/, end: /$/,
-        returnBegin: true,
-        contains: [
-		  { className: 'header-markup-n', begin: /^#{3,6}\s*/ },
-		  { className: 'header-n', endsWithParent: true },
-		]
+          className: 'header-n',
+          variants: [
+              { 
+                  begin: '^###\s*',
+                  end: '$' ,
+                  returnBegin: true,
+                  contains: [
+                    { className: 'header-markup-n', begin: '^###'  }
+                  ]
+              }
+          ],
       },
+
       {
-        className: 'header',
-        begin: /^##\s+/, end: /$/,
-        returnBegin: true,
-        contains: [
-		  { className: 'header-markup-2', begin: /^##\s*/ },
-		  { className: 'header-2', endsWithParent: true },
-		]
+          className: 'header-2',
+          variants: [
+              { 
+                  begin: '^##\s*',
+                  end: '$' ,
+                  returnBegin: true,
+                  contains: [
+                    { className: 'header-markup-2', begin: '^##\s*'  }
+                  ]
+              },
+              { 
+                  begin: '^.+?\\-[=]{2,}$'
+              }
+          ],
       },
+
       {
-        className: 'header',
-        begin: /^#\s+/, end: /$/,
-        returnBegin: true,
-        contains: [
-		  { className: 'header-markup-1', begin: /^#\s*/ },
-		  { className: 'header-1', endsWithParent: true },
-		]
+          className: 'header-1',
+          variants: [
+              { 
+                  begin: '^#\s*',
+                  end: '$' ,
+                  returnBegin: true,
+                  contains: [
+                    { className: 'header-markup-1', begin: '^#\s*' }
+                  ]
+              },
+              { 
+                  begin: '^.+?\\n[=]{2,}$'
+              }
+          ],
       },
+
       {
-        className: 'header',
-        begin: '^.+?\\n[=-]{2,}$'
+          className: 'header-2',
+              variants: [
+                  { begin: '^##', end: '$' },
+                  { begin: '^.+?\\n[-]{2,}$' }
+              ]
+      },
+
+      {
+          className: 'header-3',
+              variants: [
+                  { begin: '^###', end: '$' }
+              ]
       },
 
       // lists
