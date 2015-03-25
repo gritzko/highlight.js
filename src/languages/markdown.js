@@ -13,28 +13,28 @@ function(hljs) {
       // headers
       {
         className: 'header',
-        begin: /^#{3,6}\s*/, end: /$/,
+        begin: /^#{3,6}\s+/, end: /$/,
         returnBegin: true,
         contains: [
-		  { className: 'header-markup', begin: /^#{3,6}\s*/ },
+		  { className: 'header-markup-n', begin: /^#{3,6}\s*/ },
 		  { className: 'header-n', endsWithParent: true },
 		]
       },
       {
         className: 'header',
-        begin: /^##\s*/, end: /$/,
+        begin: /^##\s+/, end: /$/,
         returnBegin: true,
         contains: [
-		  { className: 'header-markup', begin: /^##\s*/ },
+		  { className: 'header-markup-2', begin: /^##\s*/ },
 		  { className: 'header-2', endsWithParent: true },
 		]
       },
       {
         className: 'header',
-        begin: /^#\s*/, end: /$/,
+        begin: /^#\s+/, end: /$/,
         returnBegin: true,
         contains: [
-		  { className: 'header-markup', begin: /^#\s*/ },
+		  { className: 'header-markup-1', begin: /^#\s*/ },
 		  { className: 'header-1', endsWithParent: true },
 		]
       },
